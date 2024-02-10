@@ -18,7 +18,7 @@ const FIND_PERSON = gql`
 
 export const FindPerson = () => {
 
- const [getPerson, result] = useLazyQuery(FIND_PERSON);
+ const [getPerson, {data, error, loading}] = useLazyQuery(FIND_PERSON);
 
  const [nameUser, setNameUser] = useState("");
  const [user, setUser] = useState(null)
@@ -31,18 +31,18 @@ export const FindPerson = () => {
 
 
  useEffect(() => {
-   if (result.data && result.data.findPerson) {
-     setUser(result.data.findPerson);
+   if (data && data.findPerson) {
+     setUser(data.findPerson);
    }
- }, [result.data]);
+ }, [data]);
 
 
-if (result.error) {
+if (error) {
   return <span style={{ color: "red" }}>{result.error.message}</span>;
 }
 
 
- if (result.loading) {
+ if (loading) {
    return (
      <h2 style={{ color: "yellow", fontWeight: "600", fontSize: "28px" }}>
       Loading...

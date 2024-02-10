@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache, gql} from '@apollo/client'
+import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache} from '@apollo/client'
 import App from './App'
 import './index.css'
 
@@ -8,6 +8,7 @@ import './index.css'
 
 
 const client = new ApolloClient({
+  connectToDevTools: true,
   cache: new InMemoryCache(),
   link: new HttpLink({ 
    uri: 'http://localhost:5000'
