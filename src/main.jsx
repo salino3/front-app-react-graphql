@@ -1,0 +1,24 @@
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache, gql} from '@apollo/client'
+import App from './App'
+import './index.css'
+
+// npm i @apollo/client graphql
+
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({ 
+   uri: 'http://localhost:5000'
+  })
+});
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <ApolloProvider client={client}>
+     <App />
+    </ApolloProvider>
+  </React.StrictMode>,
+)
