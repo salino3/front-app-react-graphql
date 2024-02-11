@@ -1,31 +1,17 @@
-import { useState } from 'react'
-import {gql, useQuery} from '@apollo/client'
 import reactLogo from './assets/react.svg'
-import {CreatePerson, FindPerson, Persons} from './components'
+import {CreatePerson, FindPerson, Notify, Persons, PhoneForm} from './components'
+import { useCreatePerson, useEditNumber, usePersons } from './persons'
 import './App.css'
 
-export const ALL_PERSONS = gql`
-  query {
-    allPersons {
-      id
-      name
-      phone
-      address {
-        street
-        city
-      }
-    }
-  }
-`;
 
 function App() {
-  const [count, setCount] = useState(0);
 
- const { data, error, loading } = useQuery(
-   ALL_PERSONS
-   // , { pollInterval: 2000 } // calls continually every 2 seconds
- );
+  const { data, error, loading } = usePersons();
+  
+  const {createPerson, clearError, errorMsg} = useCreatePerson();
+  const { editNumber } = useEditNumber();
 
+  
 
 if(error) {
   return <span style={{color: "red"}}>{error.message}</span>
@@ -35,9 +21,14 @@ if(loading){
   return <h2 style={{ color: "yellow", fontWeight: '600', fontSize: '48px' }}>Loading...</h2>;
 }
 
+if(errorMsg) {
+  clearError()
+}
+
 
   return (
     <div className="App">
+      <Notify errorMessage={errorMsg} />
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
@@ -46,21 +37,26 @@ if(loading){
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-
       <details open style={{ color: "white" }}>
-        <summary>FindPerson Component</summary>
+        <summary>Edit Number Component</summary>
         <div>
-          <CreatePerson />
+          <PhoneForm editNumber={editNumber} />
         </div>
       </details>
-
+      <br />
       <details open style={{ color: "white" }}>
-        <summary>FindPerson Component</summary>
+        <summary>Create Person Component</summary>
+        <div>
+          <CreatePerson createPerson={createPerson} />
+        </div>
+      </details>
+      <br />
+      <details open style={{ color: "white" }}>
+        <summary>Find Person Component</summary>
         <div>
           <FindPerson />
         </div>
       </details>
-
       <h1>GraphQL + React</h1>
       <Persons persons={data} />
     </div>
