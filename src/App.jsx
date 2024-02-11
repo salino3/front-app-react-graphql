@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import {gql, useQuery} from '@apollo/client'
 import reactLogo from './assets/react.svg'
-import {FindPerson, Persons} from './components'
+import {CreatePerson, FindPerson, Persons} from './components'
 import './App.css'
 
-const ALL_PERSONS = gql`
+export const ALL_PERSONS = gql`
   query {
     allPersons {
       id
@@ -21,9 +21,11 @@ const ALL_PERSONS = gql`
 function App() {
   const [count, setCount] = useState(0);
 
- const {data, error, loading} = useQuery(ALL_PERSONS);
+ const { data, error, loading } = useQuery(
+   ALL_PERSONS
+   // , { pollInterval: 2000 } // calls continually every 2 seconds
+ );
 
- console.log(data)
 
 if(error) {
   return <span style={{color: "red"}}>{error.message}</span>
@@ -44,6 +46,13 @@ if(loading){
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
+
+      <details open style={{ color: "white" }}>
+        <summary>FindPerson Component</summary>
+        <div>
+          <CreatePerson />
+        </div>
+      </details>
 
       <details open style={{ color: "white" }}>
         <summary>FindPerson Component</summary>
